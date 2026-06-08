@@ -1,0 +1,11 @@
+```
+Rule    : Scheduled Task Creation
+MITRE   : T1053.005 (Persistence / Execution)  |  Severity: Medium
+Source  : Sysmon EventCode 1 (Process Creation)
+Detects : schtasks.exe creating a task.
+Tuned   : NOT RUXIM removes the legitimate Windows Update task. (4698 not enabled by default - relies on Sysmon.)
+Alert   : Scheduled | cron */5 * * * * | Trigger: Number of Results > 0
+```
+index=endpoint source="*Sysmon*" EventCode=1 Image="*schtasks.exe" CommandLine="*create*"
+  NOT CommandLine="*RUXIM*"
+| table _time, host, User, CommandLine

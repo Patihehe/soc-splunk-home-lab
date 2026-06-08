@@ -1,0 +1,11 @@
+```
+Rule    : New Account Created / Promoted to Admin
+MITRE   : T1136.001 (Persistence)  |  Severity: High
+Source  : Windows Security EventCode 4720 (account created) + 4732 (added to group)
+Detects : User creation and/or addition to a privileged group.
+Alert   : Scheduled | cron */5 * * * * | Trigger: Number of Results > 0
+Idea    : Stronger variant = correlate 4720 then 4732 within seconds (create + instant promote to admin).
+```
+index=endpoint (EventCode=4720 OR EventCode=4732)
+| table _time, host, EventCode, Account_Name
+| sort _time

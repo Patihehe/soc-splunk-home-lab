@@ -1,0 +1,15 @@
+```
+Rule    : LSASS Credential Dumping
+MITRE   : T1003.001 (Credential Access)  |  Severity: Critical
+Source  : Sysmon EventCode 1 (Process Creation) + EventCode 11 (File Create)
+Detects : 3 variants - (1) procdump targeting lsass, (2) comsvcs.dll MiniDump LOLBin via rundll32,
+          (3) creation of an lsass*.dmp dump file.
+Why     : Covering multiple techniques (tool + LOLBin + artifact) beats matching a single tool.
+Alert   : Scheduled | cron */5 * * * * | Trigger: Number of Results > 0
+```
+index=endpoint source="*Sysmon*" (
+   (EventCode=1 Image="*procdump*" CommandLine="*lsass*")
+   OR (EventCode=1 CommandLine="*comsvcs*" CommandLine="*MiniDump*")
+   OR (EventCode=11 TargetFilename="*lsass*.dmp")
+)
+| table _time, host, Image, CommandLine, TargetFilename

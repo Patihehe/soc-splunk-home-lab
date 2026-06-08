@@ -1,0 +1,10 @@
+```
+Rule    : Suspicious PowerShell Download Cradle
+MITRE   : T1059.001 (Execution)  |  Severity: High
+Source  : Sysmon EventCode 1 (Process Creation)
+Detects : PowerShell downloading/executing code from network or running encoded/hidden commands.
+Alert   : Scheduled | cron */5 * * * * | Trigger: Number of Results > 0
+```
+index=endpoint source="*Sysmon*" EventCode=1 Image="*powershell.exe"
+  (CommandLine="*IEX*" OR CommandLine="*DownloadString*" OR CommandLine="*-enc*" OR CommandLine="*Invoke-Mimikatz*" OR CommandLine="*hidden*")
+| table _time, host, User, ParentImage, CommandLine

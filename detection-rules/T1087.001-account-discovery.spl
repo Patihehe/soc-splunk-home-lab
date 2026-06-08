@@ -1,0 +1,11 @@
+```
+Rule    : Account Discovery Burst
+MITRE   : T1087.001 (Discovery)  |  Severity: Low
+Source  : Sysmon EventCode 1 (Process Creation)
+Detects : >= 5 enumeration commands (net / net1 / whoami / quser) = reconnaissance burst (behaviour/density, not single command).
+Alert   : Scheduled | cron */5 * * * * | Time Range = Last 15 min | Trigger: Number of Results > 0
+Note    : No `bin` - the alert's time range IS the detection window.
+```
+index=endpoint source="*Sysmon*" EventCode=1 (Image="*net.exe" OR Image="*net1.exe" OR Image="*whoami.exe" OR Image="*quser.exe")
+| stats count, values(CommandLine) as commands by host
+| where count >= 5

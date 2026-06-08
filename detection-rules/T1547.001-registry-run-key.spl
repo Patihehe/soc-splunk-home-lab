@@ -1,0 +1,11 @@
+```
+Rule    : Registry Run Key Persistence
+MITRE   : T1547.001 (Persistence)  |  Severity: Medium
+Source  : Sysmon EventCode 13 (Registry Value Set)
+Detects : Writes to CurrentVersion\Run (autostart persistence).
+Tuned   : NOT WINEVT removes "Runtime" false positives; NOT msedge removes Edge AutoLaunch.
+Alert   : Scheduled | cron */5 * * * * | Trigger: Number of Results > 0
+```
+index=endpoint source="*Sysmon*" EventCode=13 TargetObject="*CurrentVersion*Run*"
+  NOT TargetObject="*WINEVT*" NOT Image="*msedge.exe"
+| table _time, host, Image, TargetObject, Details

@@ -1,0 +1,12 @@
+```
+Rule    : Brute Force - Multiple Failed Logons
+MITRE   : T1110 (Credential Access)  |  Severity: Medium
+Source  : Windows Security EventCode 4625
+Detects : >= 5 failed logons for the same account (threshold rule).
+Alert   : Scheduled | cron */5 * * * * | Time Range = Last 15 min | Trigger: Number of Results > 0
+Note    : No `bin` - the alert's time range IS the detection window (avoids bucket-boundary splits).
+```
+index=endpoint EventCode=4625
+| stats count, min(_time) as first_seen, max(_time) as last_seen by Account_Name, ComputerName
+| where count >= 5
+| eval first_seen=strftime(first_seen,"%H:%M:%S"), last_seen=strftime(last_seen,"%H:%M:%S")

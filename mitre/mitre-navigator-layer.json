@@ -1,0 +1,102 @@
+{
+    "name": "SOC Home Lab - Detection Coverage",
+    "versions": {
+        "attack": "16",
+        "navigator": "5.1.0",
+        "layer": "4.5"
+    },
+    "domain": "enterprise-attack",
+    "description": "7 ky thuat MITRE ATT&CK duoc phat hien boi Splunk SOC home lab (detection engineering).",
+    "filters": {
+        "platforms": [
+            "Windows"
+        ]
+    },
+    "sorting": 0,
+    "layout": {
+        "layout": "side",
+        "aggregateFunction": "average",
+        "showID": true,
+        "showName": true,
+        "showAggregateScores": false,
+        "countUnscored": false,
+        "expandedSubtechniques": "annotated"
+    },
+    "hideDisabled": false,
+    "techniques": [
+        {
+            "techniqueID": "T1110",
+            "score": 100,
+            "color": "#66bb6a",
+            "comment": "Rule 1 - Brute Force: Security 4625, scheduled alert (count >= 5)",
+            "enabled": true,
+            "showSubtechniques": false
+        },
+        {
+            "techniqueID": "T1059.001",
+            "score": 100,
+            "color": "#66bb6a",
+            "comment": "Rule 2 - Malicious PowerShell Download Cradle: Sysmon EID 1 (IEX/DownloadString)",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1547.001",
+            "score": 100,
+            "color": "#66bb6a",
+            "comment": "Rule 3 - Registry Run Key Persistence: Sysmon EID 13 (tuned: NOT WINEVT/msedge)",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1053.005",
+            "score": 100,
+            "color": "#66bb6a",
+            "comment": "Rule 4 - Scheduled Task: Sysmon EID 1 schtasks (tuned: NOT RUXIM)",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1136.001",
+            "score": 100,
+            "color": "#66bb6a",
+            "comment": "Rule 5 - New Admin Account: Security 4720 + 4732",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1003.001",
+            "score": 100,
+            "color": "#ef5350",
+            "comment": "Rule 6 - LSASS Dumping (Critical): procdump + comsvcs.dll LOLBin + lsass*.dmp file",
+            "enabled": true
+        },
+        {
+            "techniqueID": "T1087.001",
+            "score": 100,
+            "color": "#66bb6a",
+            "comment": "Rule 7 - Account Discovery Burst: Sysmon EID 1 (net/whoami/quser, count >= 5)",
+            "enabled": true
+        }
+    ],
+    "gradient": {
+        "colors": [
+            "#ffffff",
+            "#66bb6a"
+        ],
+        "minValue": 0,
+        "maxValue": 100
+    },
+    "legendItems": [
+        {
+            "label": "Detected (Critical)",
+            "color": "#ef5350"
+        },
+        {
+            "label": "Detected",
+            "color": "#66bb6a"
+        }
+    ],
+    "metadata": [],
+    "links": [],
+    "showTacticRowBackground": true,
+    "tacticRowBackground": "#205b8f",
+    "selectTechniquesAcrossTactics": true,
+    "selectSubtechniquesWithParent": false
+}
